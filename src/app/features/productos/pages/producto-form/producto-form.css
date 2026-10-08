@@ -1,0 +1,8 @@
+.formulario { display: flex; flex-direction: column; gap: 10px; max-width: 560px; }
+label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+.fila { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.check { flex-direction: row; align-items: center; gap: 8px; }
+.error { color: #b42318; }
+.aviso { display: flex; align-items: center; justify-content: space-between; gap: 16px;
+padding: 16px; border-radius: 8px; background: #fff6dc; }
+.acciones { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }

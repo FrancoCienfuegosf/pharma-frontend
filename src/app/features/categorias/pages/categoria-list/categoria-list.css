@@ -1,0 +1,3 @@
+.buscador { max-width: 320px; margin-bottom: 16px; }
+.acciones { display: flex; gap: 8px; }
+.vacio { text-align: center; color: #6b7280; padding: 24px; }

@@ -1,0 +1,11 @@
+:host { display: block; }
+.header {
+height: 64px; display: flex; align-items: center; gap: 16px;
+padding: 0 20px; background: #0f2e5c; color: #fff;
+}
+.btn-menu { background: none; border: 0; color: inherit; font-size: 22px; cursor: pointer; }
+.marca { color: #f2a900; font-weight: 700; font-size: 20px; text-decoration: none; }
+.menubar { display: flex; gap: 16px; margin-left: 24px; }
+.menubar a { color: #dbe4f3; text-decoration: none; }
+.menubar a:hover { color: #fff; }
+.usuario { margin-left: auto; font-size: 14px; opacity: 0.85; }

@@ -1,0 +1,8 @@
+.buscador { max-width: 380px; margin-bottom: 16px; }
+.acciones { display: flex; gap: 8px; }
+.vacio { text-align: center; color: #6b7280; padding: 24px; }
+
+.ordenable {
+  cursor: pointer;
+  user-select: none;
+}

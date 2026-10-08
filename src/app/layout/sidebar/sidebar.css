@@ -1,0 +1,7 @@
+:host { display: block; }
+.sidebar { height: 100%; min-width: 240px; padding: 16px 12px; background: #fff; border-right: 1px solid
+#e3e8f0; }
+.titulo { font-size: 12px; text-transform: uppercase; color: #6b7280; margin: 0 8px 8px; }
+a { display: block; padding: 10px 12px; border-radius: 8px; color: #1f2937; text-decoration: none; }
+a:hover { background: #eef2f8; }
+a.activo { background: #0f2e5c; color: #fff; }

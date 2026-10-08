@@ -1,0 +1,70 @@
+<section class="page">
+<h2>{{ esEdicion() ? 'Editar producto' : 'Nuevo producto' }}</h2>
+@if (error()) {
+<div class="alerta">{{ error() }}</div>
+}
+@if (cargando()) {
+<p>Cargando datos...</p>
+} @else if (!hayCategoriasActivas()) {
+<div class="aviso">
+No hay categorías activas. Registre o active una categoría antes de crear productos.
+<a routerLink="/categorias/nuevo" class="btn btn-primary">Nueva categoría</a>
+</div>
+} @else {
+<form [formGroup]="form" (ngSubmit)="guardar()" class="card formulario">
+<label>
+Categoría
+<select class="input" formControlName="categoriaId">
+<option [ngValue]="null" disabled>Seleccione una categoría...</option>
+@for (c of opciones(); track c.id) {
+<option [ngValue]="c.id">{{ c.nombre }}{{ c.estado ? '' : ' (inactiva)' }}</option>
+}
+</select>
+</label>
+@if (form.controls.categoriaId.touched && form.controls.categoriaId.invalid) {
+<small class="error">Seleccione la categoría del producto.</small>
+}
+@if (categoriaInactiva()) {
+<small class="error">La categoría elegida está inactiva. Elija una categoría
+activa.</small>
+}
+@if (erroresServidor()['categoriaId']; as mensaje) {
+<small class="error">{{ mensaje }}</small>
+}
+<label>
+Nombre
+<input class="input" formControlName="nombre" />
+</label>
+@if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+<small class="error">El nombre es obligatorio y debe tener entre 3 y 150
+caracteres.</small>
+}
+<div class="fila">
+<label>
+Precio (S/)
+<input class="input" type="number" step="0.01" min="0.01" formControlName="precio" />
+</label>
+<label>
+Stock
+<input class="input" type="number" step="1" min="0" formControlName="stock" />
+</label>
+</div>
+@if (form.controls.precio.touched && form.controls.precio.invalid) {
+<small class="error">El precio es obligatorio y debe ser mayor que cero.</small>
+}
+@if (form.controls.stock.touched && form.controls.stock.invalid) {
+<small class="error">El stock es obligatorio y debe ser un entero mayor o igual a
+cero.</small>
+}
+<label class="check">
+<input type="checkbox" formControlName="estado" /> Activo
+</label>
+<div class="acciones">
+<a routerLink="/productos" class="btn">Cancelar</a>
+<button type="submit" class="btn btn-primary" [disabled]="guardando()">
+{{ guardando() ? 'Guardando...' : (esEdicion() ? 'Actualizar' : 'Registrar') }}
+</button>
+</div>
+</form>
+}
+</section>

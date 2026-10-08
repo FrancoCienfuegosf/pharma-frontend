@@ -1,0 +1,79 @@
+<section class="page">
+  <header class="page-header">
+    <h2>Clientes</h2>
+    <a routerLink="nuevo" class="btn btn-primary">+ Nuevo cliente</a>
+  </header>
+
+  <input class="input buscador" placeholder="Buscar por DNI, nombres o apellidos..."
+         [value]="filtro()" (input)="filtro.set($any($event.target).value)" />
+
+  @if (error()) {
+    <div class="alerta">{{ error() }}</div>
+  }
+
+  @if (cargando()) {
+    <p>Cargando clientes...</p>
+  } @else {
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th class="ordenable" (click)="ordenar('dni')">
+            DNI
+            @if (ordenarPor() === 'dni') {
+              <span>{{ direccion() === 'asc' ? '▲' : '▼' }}</span>
+            }
+          </th>
+          <th class="ordenable" (click)="ordenar('apellidos')">
+            Apellidos y nombres
+            @if (ordenarPor() === 'apellidos') {
+              <span>{{ direccion() === 'asc' ? '▲' : '▼' }}</span>
+            }
+          </th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of filtrados(); track c.id) {
+          <tr>
+            <td>{{ c.dni }}</td>
+            <td>{{ c.apellidos }}, {{ c.nombres }}</td>
+            <td>{{ c.email }}</td>
+            <td>{{ c.telefono ?? '—' }}</td>
+            <td>
+              <span class="badge" [class.inactivo]="!c.estado">{{ c.estado ? 'Activo' : 'Inactivo' }}</span>
+            </td>
+            <td class="acciones">
+              <a [routerLink]="[c.id, 'editar']" class="btn">Editar</a>
+              <button type="button" class="btn btn-peligro" (click)="darDeBaja(c)">Dar de baja</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="6" class="vacio">No hay clientes para mostrar.</td></tr>
+        }
+      </tbody>
+    </table>
+
+    @if (respuesta(); as r) {
+      <div class="paginacion">
+        <label class="tamanio">
+          Mostrar
+          <select class="input" (change)="cambiarTamanio($any($event.target).value)">
+            @for (t of tamanios; track t) {
+              <option [value]="t" [selected]="t === tamanio()">{{ t }}</option>
+            }
+          </select>
+        </label>
+
+        <span>Página {{ r.pagina + 1 }} de {{ r.totalPaginas }} · {{ r.totalElementos }} clientes</span>
+
+        <div class="acciones">
+          <button type="button" class="btn" (click)="anterior()" [disabled]="r.pagina === 0">Anterior</button>
+          <button type="button" class="btn" (click)="siguiente()" [disabled]="r.ultima">Siguiente</button>
+        </div>
+      </div>
+    }
+  }
+</section>
