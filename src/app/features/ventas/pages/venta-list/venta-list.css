@@ -1,0 +1,14 @@
+.filtros { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 12px; align-items: end;
+margin-bottom: 16px; }
+.filtros label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight:
+600; }
+.botones { display: flex; gap: 8px; }
+.monto { text-align: right; white-space: nowrap; }
+.vacio { text-align: center; color: #6b7280; padding: 24px; }
+.paginador { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top:
+12px; }
+.page-header .botones { align-items: center; }
+.acciones-fila { display: flex; gap: 6px; }
+.resumen-filtros { margin: 0 0 12px; font-size: 13px; color: #374151; }
+@media print { .paginador { justify-content: flex-start; } .paginador .solo-impresion { display:
+inline; } }

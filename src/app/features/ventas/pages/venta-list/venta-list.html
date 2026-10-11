@@ -1,0 +1,82 @@
+<section class="page">
+<header class="page-header">
+<h2>Consulta de ventas</h2>
+<div class="botones no-imprimir">
+<button type="button" class="btn" [disabled]="!resultado()?.contenido?.length"
+(click)="imprimirConsulta()">🖨 Imprimir consulta</button>
+<a routerLink="nueva" class="btn btn-primary">+ Nueva venta</a>
+</div>
+</header>
+<!-- Solo en el papel: qué filtros produjeron este listado -->
+<p class="solo-impresion resumen-filtros">
+Filtros: {{ resumenFiltros() }} · Impreso el {{ ahora() | date: 'dd/MM/yyyy HH:mm' }}
+</p>
+<form [formGroup]="filtros" (ngSubmit)="buscar()" class="card filtros no-imprimir">
+<label>
+Cliente
+<select class="input" formControlName="clienteId">
+<option [ngValue]="null">Todos</option>
+@for (c of clientes(); track c.id) {
+<option [ngValue]="c.id">{{ c.apellidos }}, {{ c.nombres }}</option>
+}
+</select>
+</label>
+<label>
+Estado
+<select class="input" formControlName="estado">
+<option [ngValue]="null">Todos</option>
+<option value="REGISTRADA">Registrada</option>
+<option value="ANULADA">Anulada</option>
+</select>
+</label>
+<label>Desde <input class="input" type="date" formControlName="desde" /></label>
+<label>Hasta <input class="input" type="date" formControlName="hasta" /></label>
+<div class="botones">
+<button type="button" class="btn" (click)="limpiar()">Limpiar</button>
+<button type="submit" class="btn btn-primary">Buscar</button>
+</div>
+</form>
+@if (error()) {
+<div class="alerta">{{ error() }}</div>
+}
+@if (cargando()) {
+<p>Buscando ventas...</p>
+} @else if (resultado(); as r) {
+<table class="tabla">
+<thead>
+<tr><th>N.o</th><th>Fecha</th><th>Cliente</th><th>Ítems</th><th
+class="monto">Total</th><th>Estado</th><th class="no-imprimir"></th></tr>
+</thead>
+<tbody>
+@for (v of r.contenido; track v.id) {
+<tr>
+<td>{{ v.id }}</td>
+<td>{{ v.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
+<td>{{ v.clienteNombre }}</td>
+<td>{{ v.detalles.length }}</td>
+<td class="monto">{{ v.total | currency: 'PEN' : 'S/ ' }}</td>
+<td><span class="badge" [class.inactivo]="v.estado === 'ANULADA'">{{ v.estado
+}}</span></td>
+<td class="no-imprimir acciones-fila">
+<a [routerLink]="[v.id]" class="btn">Ver</a>
+<a [routerLink]="[v.id]" [queryParams]="{ imprimir: 1 }" class="btn" title="Imprimir
+comprobante" aria-label="Imprimir comprobante">🖨</a>
+</td>
+</tr>
+} @empty {
+<tr><td colspan="7" class="vacio">No hay ventas con esos filtros.</td></tr>
+}
+</tbody>
+</table>
+<footer class="paginador">
+<span class="solo-impresion">Total registrado en la página (sin anuladas): {{ totalPagina() |
+currency: 'PEN' : 'S/ ' }} · </span>
+<span>Página {{ r.pagina + 1 }} de {{ r.totalPaginas || 1 }} · {{ r.totalElementos }}
+ventas</span>
+<button type="button" class="btn no-imprimir" [disabled]="r.pagina === 0"
+(click)="irA(r.pagina - 1)">Anterior</button>
+<button type="button" class="btn no-imprimir" [disabled]="r.ultima" (click)="irA(r.pagina +
+1)">Siguiente</button>
+</footer>
+}
+</section>

@@ -1,0 +1,74 @@
+<section class="page">
+@if (nueva()) {
+<div class="exito no-imprimir">Venta registrada correctamente.</div>
+}
+@if (error()) {
+<div class="alerta">{{ error() }}</div>
+}
+@if (venta(); as v) {
+<article class="card comprobante" [class.anulada]="v.estado === 'ANULADA'">
+<!-- Datos del negocio: se ven en pantalla y en el papel -->
+<header class="negocio">
+<div>
+    <strong class="marca">PharmaSoft</strong>
+<span>Botica · Sistema de ventas</span>
+</div>
+<div class="numero">
+<span>Comprobante de venta</span>
+<strong>N.o {{ numero() }}</strong>
+</div>
+</header>
+<dl class="datos">
+<div><dt>Fecha</dt><dd>{{ v.fecha | date: 'dd/MM/yyyy HH:mm' }}</dd></div>
+<div><dt>Cliente</dt><dd>{{ v.clienteNombre }}</dd></div>
+@if (cliente(); as c) {
+<div><dt>DNI</dt><dd>{{ c.dni }}</dd></div>
+}
+<div>
+<dt>Estado</dt>
+<dd><span class="badge" [class.inactivo]="v.estado === 'ANULADA'">{{ v.estado
+}}</span></dd>
+</div>
+</dl>
+<table class="tabla">
+<thead>
+<tr><th>Producto</th><th class="monto">Precio</th><th class="monto">Cant.</th><th
+class="monto">Subtotal</th></tr>
+</thead>
+<tbody>
+@for (d of v.detalles; track d.productoId) {
+<tr>
+<td>{{ d.productoNombre }}</td>
+<td class="monto">{{ d.precio | currency: 'PEN' : 'S/ ' }}</td>
+<td class="monto">{{ d.cantidad }}</td>
+<td class="monto">{{ d.subtotal | currency: 'PEN' : 'S/ ' }}</td>
+</tr>
+}
+</tbody>
+<tfoot>
+<tr>
+<td colspan="2">{{ v.detalles.length }} {{ v.detalles.length === 1 ? 'producto' :
+'productos' }} · {{ unidades() }} {{ unidades() === 1 ? 'unidad' : 'unidades' }}</td>
+<td class="monto"><strong>Total</strong></td>
+<td class="monto total">{{ v.total | currency: 'PEN' : 'S/ ' }}</td>
+</tr>
+</tfoot>
+</table>
+@if (v.estado === 'ANULADA') {
+<p class="sello" aria-hidden="true">ANULADA</p>
+}
+<!-- Solo en el papel -->
+<footer class="pie solo-impresion">
+<p>Gracias por su compra.</p>
+<p>Documento interno sin valor tributario · Impreso el {{ fechaImpresion | date:
+'dd/MM/yyyy HH:mm' }}</p>
+</footer>
+<div class="acciones no-imprimir">
+<a routerLink="/ventas" class="btn">Volver a la consulta</a>
+<a routerLink="/ventas/nueva" class="btn">Nueva venta</a>
+<button type="button" class="btn btn-primary" (click)="imprimirComprobante()">🖨
+Imprimir</button>
+</div>
+</article>
+}
+</section>
