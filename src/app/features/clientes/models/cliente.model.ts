@@ -7,8 +7,6 @@ export interface Cliente {
   telefono: string | null;
   direccion: string | null;
   estado: boolean;
-  fechaCreacion: string;
-  fechaModificacion: string | null;
 }
 
 export interface ClienteRequest {
@@ -16,7 +14,7 @@ export interface ClienteRequest {
   nombres: string;
   apellidos: string;
   email: string;
-  telefono: string | null;
-  direccion: string | null;
-  estado: boolean;
+  telefono?: string | null;
+  direccion?: string | null;
+  estado?: boolean;
 }
