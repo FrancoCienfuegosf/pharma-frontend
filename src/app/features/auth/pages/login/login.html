@@ -1,0 +1,36 @@
+<main class="fondo">
+<section class="card login" aria-labelledby="titulo-login">
+<p class="marca">PharmaSoft</p>
+<h1 id="titulo-login">Iniciar sesión</h1>
+@if (expirada()) {
+<div class="aviso" role="status">Su sesión expiró. Inicie sesión nuevamente.</div>
+}
+@if (error()) {
+<div class="alerta" role="alert">{{ error() }}</div>
+}
+<form [formGroup]="form" (ngSubmit)="ingresar()" novalidate>
+<label>
+Usuario
+<input class="input" formControlName="username" autocomplete="username" autofocus />
+</label>
+@if (form.controls.username.touched && form.controls.username.invalid) {
+<small class="error">Ingrese su usuario.</small>
+}
+<label>
+Contraseña
+<input class="input" [type]="verClave() ? 'text' : 'password'"
+formControlName="password" autocomplete="current-password" />
+</label>
+@if (form.controls.password.touched && form.controls.password.invalid) {
+<small class="error">Ingrese su contraseña.</small>
+}
+<label class="ver">
+<input type="checkbox" [checked]="verClave()" (change)="verClave.set(!verClave())" />
+Mostrar contraseña
+</label>
+<button type="submit" class="btn btn-primary" [disabled]="enviando()">
+{{ enviando() ? 'Ingresando...' : 'Ingresar' }}
+</button>
+</form>
+</section>
+</main>

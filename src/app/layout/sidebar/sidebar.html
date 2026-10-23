@@ -1,6 +1,6 @@
 <nav class="sidebar">
 <p class="titulo">Módulos</p>
-@for (item of menu; track item.ruta) {
+@for (item of menu(); track item.ruta) {
 <a [routerLink]="item.ruta" routerLinkActive="activo">
 <span aria-hidden="true">{{ item.icono }}</span> {{ item.etiqueta }}
 </a>

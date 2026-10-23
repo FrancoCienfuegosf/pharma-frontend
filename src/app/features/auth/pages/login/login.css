@@ -1,0 +1,14 @@
+.fondo {
+min-height: 100vh; display: grid; place-items: center; padding: 16px;
+background: linear-gradient(135deg, #0f2e5c 0%, #1f5aa6 100%);
+}
+.login { width: 100%; max-width: 400px; }
+.marca { margin: 0; color: #f2a900; font-weight: 800; font-size: 22px; }
+h1 { margin: 4px 0 16px; font-size: 24px; color: #0f2e5c; }
+form { display: flex; flex-direction: column; gap: 10px; }
+label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: 14px; }
+.ver { flex-direction: row; align-items: center; gap: 8px; font-weight: 400; }
+.error { color: #b42318; margin-top: -6px; }
+.aviso { padding: 10px 14px; margin-bottom: 12px; border-radius: 8px; background: #fff6dc; color: #7a5200;
+}
+button { margin-top: 8px; padding: 10px; }

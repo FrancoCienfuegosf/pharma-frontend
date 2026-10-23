@@ -1,81 +1,78 @@
 <section class="page">
-<header class="page-header">
-<h2>Productos</h2>
-<a routerLink="nuevo" class="btn btn-primary">+ Nuevo producto</a>
-</header>
-<div class="filtros">
-<label>
-Categoría
-<select class="input" (change)="filtrarPorCategoria($any($event.target).value)">
-<option value="">Todas</option>
-@for (c of categorias(); track c.id) {
-<option [value]="c.id">{{ c.nombre }}</option>
-}
-</select>
-</label>
-<label>
-Por página
-<select class="input" [value]="tamanio()"
-(change)="cambiarTamanio($any($event.target).value)">
-<option value="5">5</option>
-<option value="10">10</option>
-<option value="20">20</option>
-</select>
-</label>
-</div>
-@if (error()) {
-<div class="alerta">{{ error() }}</div>
-}
-@if (cargando()) {
-<p>Cargando productos...</p>
-} @else {
-<table class="tabla">
-<thead>
-<tr>
-<th><button type="button" class="orden"
-(click)="ordenar('nombre')">Nombre</button></th>
-<th>Categoría</th>
-<th><button type="button" class="orden"
-(click)="ordenar('precio')">Precio</button></th>
-<th><button type="button" class="orden"
-(click)="ordenar('stock')">Stock</button></th>
-<th>Estado</th>
-<th>Acciones</th>
-</tr>
-</thead>
-<tbody>
-@for (p of productos(); track p.id) {
-<tr>
-<td>{{ p.nombre }}</td>
-<td><span class="chip">{{ p.categoriaNombre }}</span></td>
-<td>{{ p.precio | currency: 'PEN' : 'S/ ' }}</td>
-<td>{{ p.stock }}</td>
-<td>
-<span class="badge" [class.inactivo]="!p.estado">{{ p.estado ? 'Activo' :
-'Inactivo' }}</span>
-</td>
-<td class="acciones">
-<a [routerLink]="[p.id, 'editar']" class="btn">Editar</a>
-<button type="button" class="btn btn-peligro" [disabled]="!p.estado"
-(click)="darDeBaja(p)">
-Dar de baja
-</button>
-</td>
-</tr>
-} @empty {
-<tr><td colspan="6" class="vacio">No hay productos para mostrar.</td></tr>
-}
-</tbody>
-</table>
-@if (resultado(); as r) {
-<footer class="paginador">
-<span>Página {{ r.pagina + 1 }} de {{ r.totalPaginas || 1 }} · {{ r.totalElementos }}
-productos</span>
-<button type="button" class="btn" [disabled]="r.pagina === 0" (click)="irA(r.pagina -
-1)">Anterior</button>
-<button type="button" class="btn" [disabled]="r.ultima" (click)="irA(r.pagina +
-1)">Siguiente</button>
-</footer>
-}
-}
+  <header class="page-header">
+    <h2>Productos</h2>
+    <a *appSiPermiso="'CATALOGO_ESCRIBIR'" routerLink="nuevo" class="btn btn-primary">+ Nuevo producto</a>
+  </header>
+
+  <div class="filtros">
+    <label>
+      Categoría
+      <select class="input" (change)="filtrarPorCategoria($any($event.target).value)">
+        <option value="">Todas</option>
+        @for (c of categorias(); track c.id) {
+          <option [value]="c.id">{{ c.nombre }}</option>
+        }
+      </select>
+    </label>
+    <label>
+      Por página
+      <select class="input" [value]="tamanio()"
+              (change)="cambiarTamanio($any($event.target).value)">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+    </label>
+  </div>
+
+  @if (error()) {
+    <div class="alerta">{{ error() }}</div>
+  }
+
+  @if (cargando()) {
+    <p>Cargando productos...</p>
+  } @else {
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th><button type="button" class="orden" (click)="ordenar('nombre')">Nombre</button></th>
+          <th>Categoría</th>
+          <th><button type="button" class="orden" (click)="ordenar('precio')">Precio</button></th>
+          <th><button type="button" class="orden" (click)="ordenar('stock')">Stock</button></th>
+          <th>Estado</th>
+          <th *appSiPermiso="'CATALOGO_ESCRIBIR'">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of productos(); track p.id) {
+          <tr>
+            <td>{{ p.nombre }}</td>
+            <td><span class="chip">{{ p.categoriaNombre }}</span></td>
+            <td>{{ p.precio | currency: 'PEN' : 'S/ ' }}</td>
+            <td>{{ p.stock }}</td>
+            <td>
+              <span class="badge" [class.inactivo]="!p.estado">{{ p.estado ? 'Activo' : 'Inactivo' }}</span>
+            </td>
+            <td *appSiPermiso="'CATALOGO_ESCRIBIR'" class="acciones">
+              <a [routerLink]="[p.id, 'editar']" class="btn">Editar</a>
+              <button type="button" class="btn btn-peligro" [disabled]="!p.estado"
+                      (click)="darDeBaja(p)">
+                Dar de baja
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="6" class="vacio">No hay productos para mostrar.</td></tr>
+        }
+      </tbody>
+    </table>
+
+    @if (resultado(); as r) {
+      <footer class="paginador">
+        <span>Página {{ r.pagina + 1 }} de {{ r.totalPaginas || 1 }} · {{ r.totalElementos }} productos</span>
+        <button type="button" class="btn" [disabled]="r.pagina === 0" (click)="irA(r.pagina - 1)">Anterior</button>
+        <button type="button" class="btn" [disabled]="r.ultima" (click)="irA(r.pagina + 1)">Siguiente</button>
+      </footer>
+    }
+  }
 </section>
