@@ -1,0 +1,72 @@
+<section class="tarjeta">
+  <h1>Auditoría</h1>
+
+  <form class="filtros" (submit)="$event.preventDefault()">
+    <label>Usuario
+      <input #u type="text" [value]="usuario()" data-testid="filtro-usuario" />
+    </label>
+    <label>Acción
+      <select #a [value]="accion()" data-testid="filtro-accion">
+        <option value="">Todas</option>
+        <option value="VENTA_REGISTRADA">VENTA_REGISTRADA</option>
+        <option value="PRECIO_MODIFICADO">PRECIO_MODIFICADO</option>
+        <option value="PRODUCTO_ELIMINADO">PRODUCTO_ELIMINADO</option>
+        <option value="CLIENTE_REGISTRADO">CLIENTE_REGISTRADO</option>
+        <option value="CATEGORIA_ELIMINADA">CATEGORIA_ELIMINADA</option>
+        <option value="LOGIN_EXITOSO">LOGIN_EXITOSO</option>
+        <option value="LOGIN_FALLIDO">LOGIN_FALLIDO</option>
+      </select>
+    </label>
+    <label>Desde
+      <input #d type="date" [value]="desde()" data-testid="filtro-desde" />
+    </label>
+    <label>Hasta
+      <input #h type="date" [value]="hasta()" data-testid="filtro-hasta" />
+    </label>
+    <button type="button" (click)="filtrar(u.value, a.value, d.value, h.value)">Filtrar</button>
+    <button type="button" class="secundario" (click)="limpiar()">Limpiar</button>
+  </form>
+
+  @if (recurso.isLoading()) {
+    <p class="mensaje">Cargando...</p>
+  }
+
+  @if (error(); as e) {
+    <p class="error" role="alert">{{ e }}</p>
+  }
+
+  @if (resultado(); as p) {
+    <table class="tabla" data-testid="tabla-auditoria">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Usuario</th>
+          <th>Acción</th>
+          <th>Entidad</th>
+          <th>Id</th>
+          <th>Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (ev of p.contenido; track ev.id) {
+          <tr>
+            <td>{{ ev.fecha | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+            <td>{{ ev.usuario }}</td>
+            <td><span class="accion">{{ ev.accion }}</span></td>
+            <td>{{ ev.entidad }}</td>
+            <td>{{ ev.entidadId ?? '—' }}</td>
+            <td>{{ ev.detalle ?? '—' }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="6">No hay eventos de auditoría.</td></tr>
+        }
+      </tbody>
+    </table>
+
+    <app-paginador
+      [pagina]="p.pagina" [totalPaginas]="p.totalPaginas"
+      [totalElementos]="p.totalElementos" [tamanio]="p.tamanio"
+      (cambioPagina)="irA($event)"
+      (cambioTamanio)="cambiarTamanio($event)" />
+  }
+</section>
