@@ -1,0 +1,91 @@
+:host { display: block; }
+
+.tarjeta {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(15, 46, 92, 0.08);
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 1.4rem;
+  color: #0f2e5c;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filtros label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5b6475;
+}
+
+.filtros input,
+.filtros select {
+  padding: 8px 10px;
+  border: 1px solid #d5dbe6;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  min-width: 140px;
+}
+
+.filtros button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #0f2e5c;
+  background: #0f2e5c;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filtros button.secundario {
+  background: #fff;
+  color: #0f2e5c;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tabla th {
+  background: #0f2e5c;
+  color: #fff;
+  text-align: left;
+  padding: 10px 12px;
+}
+
+.tabla th:first-child { border-radius: 8px 0 0 8px; }
+.tabla th:last-child { border-radius: 0 8px 8px 0; }
+
+.tabla td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eef1f6;
+}
+
+.tabla tbody tr:hover { background: #f6f8fc; }
+
+.accion {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e8eefb;
+  color: #0f2e5c;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.mensaje { color: #5b6475; }
+.error { color: #b3261e; }
